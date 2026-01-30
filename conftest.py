@@ -1,17 +1,9 @@
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+from frontend.config.driver_factory import get_driver
 
 
 @pytest.fixture
 def driver():
-    options = webdriver.ChromeOptions()
-    options.add_argument("--start-maximized")
-
-    service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=service, options=options)
-
+    driver = get_driver()
     yield driver
-
     driver.quit()
