@@ -38,8 +38,8 @@ jobs:
       - name: Run Selenium tests
         run: |
           # Levantar un contenedor temporal para correr los tests
-          docker run --rm --network host -v ${{ github.workspace }}/frontend/tests:/tests frontend-app \
-          bash -c "pip install -r /tests/requirements.txt && python3 -m unittest discover -s /tests"
+          docker run --rm --network host -v ${{ github.workspace }}/frontend:/frontend frontend-app \
+          bash -c "pip install -r /frontend/requirements.txt && python3 -m unittest discover -s /frontend/tests"
 
       # Limpiar contenedores
       - name: Stop containers
