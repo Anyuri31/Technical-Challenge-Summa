@@ -2,7 +2,7 @@ name: UI Automated Tests
 
 on:
   push:
-    branches: [main]
+    branches: [main,feature/selenium-base-framework]
   pull_request:
 
 jobs:
