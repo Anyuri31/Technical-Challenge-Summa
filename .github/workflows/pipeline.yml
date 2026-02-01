@@ -2,7 +2,7 @@ name: UI Automated Tests
 
 on:
   push:
-    branches: [main,feature/selenium-base-framework]
+    branches: [main, feature/selenium-base-framework]
   pull_request:
 
 jobs:
@@ -34,11 +34,12 @@ jobs:
         run: |
           docker run -d --name frontend-container -p 8080:80 frontend-app
 
-      # Ejecutar pruebas contra los contenedores
-      - name: Run automated tests
+      # Ejecutar pruebas Selenium
+      - name: Run Selenium tests
         run: |
-          # Ejemplo con Cypress, ajusta según tu suite
-          docker run --rm --network host -v ${{ github.workspace }}/tests:/tests cypress/included:12.17.1
+          # Levantar un contenedor temporal para correr los tests
+          docker run --rm --network host -v ${{ github.workspace }}/frontend/tests:/tests frontend-app \
+          bash -c "pip install -r /tests/requirements.txt && python3 -m unittest discover -s /tests"
 
       # Limpiar contenedores
       - name: Stop containers
