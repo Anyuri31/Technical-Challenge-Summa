@@ -3,7 +3,7 @@ from selenium.common.exceptions import (
     StaleElementReferenceException,
     NoSuchElementException,
 )
-from frontend.pages.base_page import BasePage
+from pages.base_page import BasePage
 import time
 
 
@@ -17,6 +17,7 @@ class HomePage(BasePage):
 
     def select_monitors_category(self):
         self.click_element(self.MONITORS_CATEGORY)
+        self.wait_for_find_elements(*self.PRODUCT_CARDS)
 
     def get_all_products(self):
         return self.driver.find_elements(*self.PRODUCT_CARDS)

@@ -1,0 +1,46 @@
+name: UI Automated Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Construir backend
+      - name: Build backend
+        run: |
+          cd backend
+          docker build -t backend-tests .
+
+      # Construir frontend
+      - name: Build frontend
+        run: |
+          cd frontend
+          docker build -t frontend-app .
+
+      # Levantar backend en segundo plano
+      - name: Run backend container
+        run: |
+          docker run -d --name backend-container -p 3000:3000 backend-tests
+
+      # Levantar frontend en segundo plano
+      - name: Run frontend container
+        run: |
+          docker run -d --name frontend-container -p 8080:80 frontend-app
+
+      # Ejecutar pruebas contra los contenedores
+      - name: Run automated tests
+        run: |
+          # Ejemplo con Cypress, ajusta según tu suite
+          docker run --rm --network host -v ${{ github.workspace }}/tests:/tests cypress/included:12.17.1
+
+      # Limpiar contenedores
+      - name: Stop containers
+        run: |
+          docker stop backend-container frontend-container

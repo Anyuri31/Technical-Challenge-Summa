@@ -1,6 +1,6 @@
-from frontend.pages.cart_page import CartPage
-from frontend.pages.home_page import HomePage
-from frontend.pages.product_page import ProductPage
+from pages.cart_page import CartPage
+from pages.home_page import HomePage
+from pages.product_page import ProductPage
 
 
 def test_user_can_open_store(driver):
